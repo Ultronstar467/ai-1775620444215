@@ -1,0 +1,103 @@
+```javascript
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware to parse JSON bodies for POST/PUT requests
+app.use(express.json());
+
+// Serve static files from the 'public' directory
+// This means if you put 'index.html' in 'public', it will be served at '/'
+app.use(express.static('public'));
+
+// In-memory data store (for demonstration purposes only)
+// In a real application, this would be a database
+let items = [
+    { id: 1, name: 'Item A', description: 'This is the first item.' },
+    { id: 2, name: 'Item B', description: 'This is the second item.' },
+    { id: 3, name: 'Item C', description: 'This is the third item.' }
+];
+let nextId = 4; // To assign unique IDs for new items
+
+// --- API Endpoints ---
+
+// GET all items
+app.get('/api/items', (req, res) => {
+    res.json(items);
+});
+
+// GET a single item by ID
+app.get('/api/items/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const item = items.find(item => item.id === id);
+
+    if (item) {
+        res.json(item);
+    } else {
+        res.status(404).json({ message: 'Item not found' });
+    }
+});
+
+// POST a new item
+app.post('/api/items', (req, res) => {
+    const { name, description } = req.body;
+
+    if (!name || !description) {
+        return res.status(400).json({ message: 'Name and description are required' });
+    }
+
+    const newItem = {
+        id: nextId++,
+        name,
+        description
+    };
+    items.push(newItem);
+    res.status(201).json(newItem); // 201 Created
+});
+
+// PUT (Update) an existing item
+app.put('/api/items/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const { name, description } = req.body;
+
+    const itemIndex = items.findIndex(item => item.id === id);
+
+    if (itemIndex > -1) {
+        // Update only provided fields, merge with existing data
+        items[itemIndex] = { ...items[itemIndex], name, description };
+        res.json(items[itemIndex]);
+    } else {
+        res.status(404).json({ message: 'Item not found' });
+    }
+});
+
+// DELETE an item
+app.delete('/api/items/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const initialLength = items.length;
+    items = items.filter(item => item.id !== id);
+
+    if (items.length < initialLength) {
+        res.status(204).send(); // 204 No Content for successful deletion
+    } else {
+        res.status(404).json({ message: 'Item not found' });
+    }
+});
+
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Static files served from: http://localhost:${PORT}/`);
+    console.log(`API endpoints available:`);
+    console.log(`  GET    /api/items             - Get all items`);
+    console.log(`  GET    /api/items/:id         - Get a specific item`);
+    console.log(`  POST   /api/items             - Add a new item (body: { "name": "...", "description": "..." })`);
+    console.log(`  PUT    /api/items/:id         - Update an item (body: { "name": "...", "description": "..." })`);
+    console.log(`  DELETE /api/items/:id         - Delete an item`);
+});
+```
+
+---
+
+**
