@@ -1,0 +1,67 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Express Data API Server</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: #f0f2f5; color: #333; line-height: 1.6; }
+        .container { max-width: 900px; margin: auto; background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px; }
+        h2 { color: #34495e; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        p { margin-bottom: 10px; }
+        code { background-color: #e9ecef; padding: 2px 5px; border-radius: 4px; font-family: 'Consolas', 'Monaco', monospace; color: #c0392b; }
+        pre { background-color: #272c34; color: #f8f8f2; padding: 15px; border-radius: 8px; overflow-x: auto; margin-top: 15px; font-size: 0.9em; line-height: 1.5; }
+        ul { list-style-type: none; padding-left: 0; }
+        ul li { margin-bottom: 8px; background-color: #ecf0f1; padding: 8px 15px; border-left: 5px solid #3498db; border-radius: 4px; }
+        a { color: #3498db; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Your Express Data API Server!</h1>
+        <p>This is a simple static HTML page being served directly by your Express.js backend. It demonstrates how to serve static assets alongside your API.</p>
+        <p>Your server is running on port <code>3000</code>.</p>
+
+        <h2>API Endpoints:</h2>
+        <p>You can interact with these endpoints using tools like Postman, Insomnia, or the <code>curl</code> command-line tool.</p>
+        <ul>
+            <li><code>GET /api/items</code> - Retrieve a list of all items.</li>
+            <li><code>GET /api/items/:id</code> - Retrieve a single item by its ID. (e.g., <a href="/api/items/1">/api/items/1</a>)</li>
+            <li><code>POST /api/items</code> - Add a new item. Requires a JSON body like: <code>{ "name": "New Task", "description": "Details about the new task." }</code></li>
+            <li><code>PUT /api/items/:id</code> - Update an existing item by its ID. Requires a JSON body like: <code>{ "name": "Updated Task", "description": "New details for the task." }</code></li>
+            <li><code>DELETE /api/items/:id</code> - Delete an item by its ID.</li>
+        </ul>
+
+        <h2>Example Usage (using <code>curl</code> in your terminal):</h2>
+        <pre>
+# Get all items
+curl http://localhost:3000/api/items
+
+# Get item with ID 1
+curl http://localhost:3000/api/items/1
+
+# Add a new item
+curl -X POST \
+     -H "Content-Type: application/json" \
+     -d '{"name":"New Project Idea","description":"Develop a full-stack application."}' \
+     http://localhost:3000/api/items
+
+# Update item with ID 1
+curl -X PUT \
+     -H "Content-Type: application/json" \
+     -d '{"name":"Updated Item A","description":"This item has been revised."}' \
+     http://localhost:3000/api/items/1
+
+# Delete item with ID 2
+curl -X DELETE http://localhost:3000/api/items/2
+        </pre>
+
+        <p>Explore the <code>server.js</code> file to understand how these endpoints are implemented.</p>
+        <p>Happy coding!</p>
+    </div>
+</body>
+</html>
+```
